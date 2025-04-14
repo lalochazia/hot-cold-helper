@@ -87,6 +87,9 @@ public class HotColdHelperPlugin extends Plugin
 	@Inject
 	private ClueScrollPlugin clueScrollPlugin;
 
+	@Inject
+	private HotColdItemHighlightOverlay itemHighlightOverlay;
+
 	private static final String HOT_COLD_DEVICE_MESSAGE = "The power of the strange device hurts you in the process.";
 	private static final int CHECKED_LOCATION_RANGE = 25;
 
@@ -127,6 +130,7 @@ public class HotColdHelperPlugin extends Plugin
 	{
 		overlayManager.add(overlay);
 		clientThread.invokeLater(this::checkHotColdData);
+		overlayManager.add(itemHighlightOverlay);
 	}
 
 	@Override
@@ -139,6 +143,7 @@ public class HotColdHelperPlugin extends Plugin
 		possibleLocationsCount = -1;
 		clueScrollPlugin = null;
 		hotColdClue = null;
+		overlayManager.remove(itemHighlightOverlay);
 	}
 
 	private void resetPluginState()
@@ -268,7 +273,6 @@ public class HotColdHelperPlugin extends Plugin
 			}
 		}
 	}
-
 
 	private void processLocations(Collection<?> points)
 	{

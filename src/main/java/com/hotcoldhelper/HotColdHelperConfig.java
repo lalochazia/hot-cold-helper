@@ -34,6 +34,13 @@ import net.runelite.client.config.Range;
 @ConfigGroup("hotcoldhelper")
 public interface HotColdHelperConfig extends Config
 {
+	@ConfigSection(
+		name = "General",
+		description = "General Plugin Configuration",
+		position = 0
+	)
+	String generalSection = "generalSection";
+
 	@Range(
 			min = 1,
 			max = 10
@@ -42,11 +49,24 @@ public interface HotColdHelperConfig extends Config
 			keyName = "maxTeleportEntries",
 			name = "Max Teleport Entries",
 			description = "Maximum number of teleport locations to display in the overlay (1-10)",
-			position = 0
+			position = 0,
+			section = "generalSection"
 	)
 	default int maxTeleportEntries()
 	{
 		return 5;
+	}
+
+	@ConfigItem(
+		keyName = "useShorthandNames",
+		name = "Use Shorthand Names",
+		description = "Use shorter teleport names in the overlay (With teleport hotkeys where applicable)",
+		position = 1,
+		section = "generalSection"
+	)
+	default boolean useShorthandNames()
+	{
+		return false;
 	}
 
 	@ConfigSection(
@@ -235,7 +255,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includeWildernessTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -247,7 +267,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includePOHJewelryTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -259,7 +279,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includeNecklaceOfPassageTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -271,7 +291,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includeCamuletTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -283,7 +303,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includePendantOfAtesTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -295,7 +315,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includePharaohsSceptreTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -307,7 +327,7 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includeRingOfTheElementsTeleports()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -319,6 +339,6 @@ public interface HotColdHelperConfig extends Config
 	)
 	default boolean includeRoyalSeedPodTeleports()
 	{
-		return true;
+		return false;
 	}
 }

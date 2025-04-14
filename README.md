@@ -7,7 +7,7 @@
 ### Features
 
 * Calculates the optimal location to teleport to in order to narrow down the correct hot cold destination
-* Calculates if small moves (2 tiles North/East/South/West from current location) would provide information and if so, which direction to move (do note that most cases where movement is advised, most directions will work, this only shows the optimal move)
+* Calculates if small moves (2 tiles north/east/south/west from current location) would provide information and if so, which direction to move (do note that most cases where movement is advised, most directions will work, this only shows the optimal move)
 * Provides full configurability for all standard teleports types
 
 ### Examples
@@ -33,3 +33,7 @@ Below are a number of outputs from the plugin demonstrating the following featur
 <br>
 
 <i> Disclaimer: Requires Clue Scrolls plugin to be enabled! (Default RuneLite Plugin) </i>
+
+### Changelog
+
+* v1.1: Added shorthand teleport locations (with hotkeys) as an optional toggle, and highlighting of optimal item in inventory

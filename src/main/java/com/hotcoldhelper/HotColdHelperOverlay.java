@@ -108,20 +108,20 @@ public class HotColdHelperOverlay extends OverlayPanel {
                         .limit(config.maxTeleportEntries())
                         .collect(Collectors.toList());
 
-                for (int i = 0; i < sortedTeleports.size(); i++) {
-                    Map.Entry<HotColdTeleports, Double> entry = sortedTeleports.get(i);
-                    HotColdTeleports teleport = entry.getKey();
-                    String name = teleport.getName();
-                    String group = teleport.getTeleportType();
-                    String teleportName = name + " (" + group + ")";
-                    Color textColor = teleport.isWildernessTeleport() ? new Color(255, 102, 102) : Color.WHITE;
-                    panelComponent.getChildren().add(LineComponent.builder()
-                            .left((i+1) + ". " + teleportName)
-                            .right("")
-                            .leftColor(textColor)
-                            .build());
-                }
-            }
+				for (int i = 0; i < sortedTeleports.size(); i++) {
+					Map.Entry<HotColdTeleports, Double> entry = sortedTeleports.get(i);
+					HotColdTeleports teleport = entry.getKey();
+					String name = teleport.getName();
+					String type = config.useShorthandNames() ? teleport.getShortType() : teleport.getTeleportType();
+					String teleportName = name + " (" + type + ")";
+					Color textColor = teleport.isWildernessTeleport() ? new Color(255, 102, 102) : Color.WHITE;
+					String prefix = (config.maxTeleportEntries() > 1) ? (i+1) + ". " : "";
+					panelComponent.getChildren().add(LineComponent.builder()
+						.left(prefix + teleportName)
+						.leftColor(textColor)
+						.build());
+				}
+			}
         }
         return super.render(graphics);
     }
