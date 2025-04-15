@@ -341,4 +341,16 @@ public interface HotColdHelperConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigItem(
+		position = 8,
+		keyName = "includeSlayerRingTeleports",
+		name = "Slayer Ring",
+		description = "Include teleports from Slayer Ring",
+		section = "miscSection"
+	)
+	default boolean includeSlayerRingTeleports()
+	{
+		return false;
+	}
 }

@@ -397,6 +397,10 @@ public class HotColdHelperPlugin extends Plugin
 			{
 				continue;
 			}
+			if ("Slayer Ring".equals(teleport.getTeleportType()) && !config.includeSlayerRingTeleports())
+			{
+				continue;
+			}
 			if (isLocationChecked(teleportDestination))
 			{
 				continue;
