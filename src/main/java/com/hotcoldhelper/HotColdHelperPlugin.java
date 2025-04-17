@@ -141,7 +141,6 @@ public class HotColdHelperPlugin extends Plugin
 		checkedLocations.clear();
 		entropyValues.clear();
 		possibleLocationsCount = -1;
-		clueScrollPlugin = null;
 		hotColdClue = null;
 		overlayManager.remove(itemHighlightOverlay);
 	}
