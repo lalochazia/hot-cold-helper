@@ -54,6 +54,11 @@ import net.runelite.client.plugins.cluescrolls.clues.HotColdClue;
 import net.runelite.client.plugins.cluescrolls.clues.hotcold.HotColdLocation;
 import net.runelite.client.plugins.cluescrolls.clues.hotcold.HotColdSolver;
 import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.ImageUtil;
+import java.awt.image.BufferedImage;
+
 
 @Slf4j
 
@@ -89,6 +94,14 @@ public class HotColdHelperPlugin extends Plugin
 
 	@Inject
 	private HotColdItemHighlightOverlay itemHighlightOverlay;
+
+	@Inject
+	private ClientToolbar clientToolbar;
+
+	@Inject
+	private HotColdHelperPanel panel;
+
+	private NavigationButton navButton;
 
 	private static final String HOT_COLD_DEVICE_MESSAGE = "The power of the strange device hurts you in the process.";
 	private static final int CHECKED_LOCATION_RANGE = 25;
@@ -131,6 +144,15 @@ public class HotColdHelperPlugin extends Plugin
 		overlayManager.add(overlay);
 		clientThread.invokeLater(this::checkHotColdData);
 		overlayManager.add(itemHighlightOverlay);
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/panelicon.png");
+		navButton = NavigationButton.builder()
+			.tooltip("Hot Cold Helper")
+			.icon(icon)
+			.priority(5)
+			.panel(panel)
+			.build();
+
+		clientToolbar.addNavigation(navButton);
 	}
 
 	@Override
@@ -143,6 +165,7 @@ public class HotColdHelperPlugin extends Plugin
 		possibleLocationsCount = -1;
 		hotColdClue = null;
 		overlayManager.remove(itemHighlightOverlay);
+		clientToolbar.removeNavigation(navButton);
 	}
 
 	private void resetPluginState()
