@@ -1,8 +1,7 @@
 package com.hotcoldhelper;
 
-import javax.swing.plaf.basic.BasicCheckBoxUI;
+import javax.swing.event.DocumentEvent;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.PluginPanel;
 import javax.inject.Inject;
 import javax.swing.*;
@@ -10,48 +9,40 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-import java.util.Comparator;
 import net.runelite.api.coords.WorldPoint;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.DynamicGridLayout;
 import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.event.DocumentListener;
+
 
 
 @Slf4j
 public class HotColdHelperPanel extends PluginPanel {
 	private final HotColdHelperPlugin plugin;
 	private final HotColdHelperConfig config;
+	private final HotColdSettingsManager settingsManager;
 	private JPanel teleportListPanel;
 	private JScrollPane scrollableContainer;
 
 	private static final Color BACKGROUND_COLOR = ColorScheme.DARK_GRAY_COLOR;
 	private static final Color SECTION_BACKGROUND_COLOR = ColorScheme.DARKER_GRAY_COLOR;
 	private static final Color ITEM_BACKGROUND_COLOR = ColorScheme.DARKER_GRAY_COLOR;
-	private static final Color ITEM_HOVER_COLOR = ColorScheme.DARK_GRAY_HOVER_COLOR;
-	private static final Color TITLE_COLOR = Color.WHITE;
 	private static final Color TEXT_COLOR = Color.WHITE;
-	private static final Color BORDER_COLOR = ColorScheme.MEDIUM_GRAY_COLOR;
 
 	@Inject
-	public HotColdHelperPanel(HotColdHelperPlugin plugin, HotColdHelperConfig config) {
+	public HotColdHelperPanel(HotColdHelperPlugin plugin, HotColdHelperConfig config, HotColdSettingsManager settingsManager) {
 		super(false);
 
 		this.plugin = plugin;
 		this.config = config;
+		this.settingsManager = settingsManager;
 		setLayout(new BorderLayout());
-
-		UIManager.put("CheckBox.icon", UIManager.getIcon("CheckBox.icon"));
-		UIManager.put("CheckBox.foreground", Color.WHITE);
-		UIManager.put("CheckBox.background", SECTION_BACKGROUND_COLOR);
 
 		teleportListPanel = new JPanel();
 		teleportListPanel.setLayout(new BoxLayout(teleportListPanel, BoxLayout.Y_AXIS));
@@ -164,7 +155,6 @@ public class HotColdHelperPanel extends PluginPanel {
 		teleportListPanel.repaint();
 	}
 
-
 	private void updateMasterToggleState(ToggleButton masterToggle, List<ToggleButton> childToggles) {
 		boolean allSelected = true;
 		boolean anySelected = false;
@@ -180,46 +170,67 @@ public class HotColdHelperPanel extends PluginPanel {
 		masterToggle.setSelected(allSelected);
 	}
 
-
 	private JPanel createTeleportPanel(HotColdTeleports teleport, List<ToggleButton> childToggles) {
-		JPanel teleportPanel = new JPanel(new BorderLayout());
+		JPanel teleportPanel = new JPanel(new BorderLayout(5, 0));
 		teleportPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		teleportPanel.setBackground(ITEM_BACKGROUND_COLOR);
+		teleportPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
 		ToggleButton teleportToggle = new ToggleButton();
 		childToggles.add(teleportToggle);
 		teleportPanel.add(teleportToggle, BorderLayout.WEST);
+
+		JPanel centerPanel = new JPanel(new BorderLayout(5, 0));
+		centerPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
 		String displayName = teleport.getName();
 		JLabel nameLabel = new JLabel(displayName);
 		nameLabel.setFont(FontManager.getRunescapeSmallFont());
-		nameLabel.setForeground(TEXT_COLOR);
+		nameLabel.setForeground(Color.WHITE);
+		centerPanel.add(nameLabel, BorderLayout.WEST);
+
+		JTextField customNameField = new JTextField(settingsManager.getCustomName(teleport.getShortType()), 10);
+		customNameField.setFont(FontManager.getRunescapeSmallFont());
+		customNameField.setBorder(BorderFactory.createEmptyBorder(1, 3, 1, 3));
+		customNameField.setBackground(ColorScheme.DARKER_GRAY_COLOR.brighter());
+		customNameField.setForeground(Color.WHITE);
+
+		customNameField.getDocument().addDocumentListener(new DocumentListener() {
+			private void update() {
+				String newName = customNameField.getText().trim();
+				settingsManager.saveCustomName(teleport.getShortType(), newName);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				update();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				update();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				update();
+			}
+		});
+
+		JPanel textFieldPanel = new JPanel(new BorderLayout());
+		textFieldPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		textFieldPanel.add(customNameField, BorderLayout.CENTER);
+		textFieldPanel.setPreferredSize(new Dimension(65, 20));
+		centerPanel.add(textFieldPanel, BorderLayout.EAST);
+
+		teleportPanel.add(centerPanel, BorderLayout.CENTER);
+
 		WorldPoint location = teleport.getLocation();
-		nameLabel.setToolTipText("Location: " + location.getX() + ", " + location.getY() + ", " + location.getPlane());
-		teleportPanel.add(nameLabel, BorderLayout.CENTER);
+		teleportPanel.setToolTipText("Location: " + location.getX() + ", " +
+			location.getY() + ", " + location.getPlane());
+
 		return teleportPanel;
 	}
 
-
-	private void styleCheckBox(JCheckBox checkbox) {
-		checkbox.setForeground(Color.WHITE);
-		checkbox.setBackground(SECTION_BACKGROUND_COLOR);
-	}
-
-
-	private void updateMasterCheckboxState(JCheckBox masterCheckbox, List<JCheckBox> childCheckboxes) {
-		boolean allSelected = true;
-		boolean anySelected = false;
-
-		for (JCheckBox checkbox : childCheckboxes) {
-			if (checkbox.isSelected()) {
-				anySelected = true;
-			} else {
-				allSelected = false;
-			}
-		}
-
-		masterCheckbox.setSelected(allSelected);
-
-	}
 	private void updateTeleportStates(String teleportType, boolean enabled) {
 	}
 	public void refresh() {

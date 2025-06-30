@@ -41,16 +41,18 @@ import net.runelite.client.ui.overlay.components.TitleComponent;
 public class HotColdHelperOverlay extends OverlayPanel {
     private final HotColdHelperPlugin plugin;
     private final HotColdHelperConfig config;
-    private static final int PANEL_WIDTH = 250;
+	private final HotColdSettingsManager settingsManager;
+	private static final int PANEL_WIDTH = 250;
 
     @Inject
-    private HotColdHelperOverlay(HotColdHelperPlugin plugin, HotColdHelperConfig config) {
+    private HotColdHelperOverlay(HotColdHelperPlugin plugin, HotColdHelperConfig config, HotColdSettingsManager settingsManager) {
         super(plugin);
         setPosition(OverlayPosition.TOP_LEFT);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
 		this.plugin = plugin;
         this.config = config;
-        panelComponent.setPreferredSize(new Dimension(PANEL_WIDTH, 0));
+		this.settingsManager = settingsManager;
+		panelComponent.setPreferredSize(new Dimension(PANEL_WIDTH, 0));
     }
 
     @Override
@@ -112,7 +114,7 @@ public class HotColdHelperOverlay extends OverlayPanel {
 					Map.Entry<HotColdTeleports, Double> entry = sortedTeleports.get(i);
 					HotColdTeleports teleport = entry.getKey();
 					String name = teleport.getName();
-					String type = config.useShorthandNames() ? teleport.getShortType() : teleport.getTeleportType();
+					String type = config.useShorthandNames() ? settingsManager.getCustomName(teleport.getShortType()) : teleport.getTeleportType();
 					String teleportName = name + " (" + type + ")";
 					Color textColor = teleport.isWildernessTeleport() ? new Color(255, 102, 102) : Color.WHITE;
 					String prefix = (config.maxTeleportEntries() > 1) ? (i+1) + ". " : "";

@@ -87,6 +87,9 @@ public class HotColdHelperPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
+	private HotColdSettingsManager settingsManager;
+
+	@Inject
 	private HotColdHelperOverlay overlay;
 
 	@Inject
