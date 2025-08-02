@@ -275,7 +275,7 @@ public class HotColdHelperPlugin extends Plugin
 
 					if (possibleLocationsCount == 1)
 					{
-						HotColdLocation solvedLocation = locations.iterator().next();
+						solvedLocation = locations.iterator().next();
 						Map<String, Object> data = new HashMap<>();
 						data.put("location", solvedLocation.name());
 						eventBus.post(new PluginMessage("hot-cold-helper", "location-solved", data));
