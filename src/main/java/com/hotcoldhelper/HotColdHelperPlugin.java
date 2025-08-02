@@ -97,6 +97,9 @@ public class HotColdHelperPlugin extends Plugin
 	private int possibleLocationsCount = -1;
 
 	@Getter
+	private HotColdLocation SolvedLocation = null;
+
+	@Getter
 	private final List<WorldPoint> possibleLocations = new ArrayList<>();
 
 	@Getter
@@ -264,6 +267,16 @@ public class HotColdHelperPlugin extends Plugin
 							possibleLocations.add(worldPoint);
 						}
 					}
+
+					if (possibleLocationsCount == 1)
+					{
+						SolvedLocation = locations.iterator().next();
+					}
+					else
+					{
+						SolvedLocation = null;
+					}
+
 					if (!possibleLocations.isEmpty()) {
 						updateEntropyValues();
 						updateCardinalInfoGain();
@@ -397,6 +410,10 @@ public class HotColdHelperPlugin extends Plugin
 				continue;
 			}
 			if ("Slayer Ring".equals(teleport.getTeleportType()) && !config.includeSlayerRingTeleports())
+			{
+				continue;
+			}
+			if ("Master Scroll Book".equals(teleport.getTeleportType()) && !config.includeMSBTeleports())
 			{
 				continue;
 			}

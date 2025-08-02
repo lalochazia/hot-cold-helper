@@ -353,4 +353,16 @@ public interface HotColdHelperConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigItem(
+		position = 9,
+		keyName = "includeMSBTeleports",
+		name = "Master Scroll Book",
+		description = "Include teleports from Master Scroll Book",
+		section = "miscSection"
+	)
+	default boolean includeMSBTeleports()
+	{
+		return true;
+	}
 }
