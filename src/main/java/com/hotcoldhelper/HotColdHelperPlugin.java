@@ -44,6 +44,7 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.events.PluginMessage;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
@@ -275,7 +276,9 @@ public class HotColdHelperPlugin extends Plugin
 					if (possibleLocationsCount == 1)
 					{
 						HotColdLocation solvedLocation = locations.iterator().next();
-						eventBus.post(new HotColdHelperSolvedLocation(solvedLocation));
+						Map<String, Object> data = new HashMap<>();
+						data.put("location", solvedLocation.name());
+						eventBus.post(new PluginMessage("hot-cold-helper", "location-solved", data));
 					}
 					else
 					{
