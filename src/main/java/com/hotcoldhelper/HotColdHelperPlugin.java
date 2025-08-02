@@ -44,6 +44,7 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDependency;
@@ -90,6 +91,9 @@ public class HotColdHelperPlugin extends Plugin
 	@Inject
 	private HotColdItemHighlightOverlay itemHighlightOverlay;
 
+	@Inject
+	private EventBus eventBus;
+
 	private static final String HOT_COLD_DEVICE_MESSAGE = "The power of the strange device hurts you in the process.";
 	private static final int CHECKED_LOCATION_RANGE = 25;
 
@@ -97,7 +101,7 @@ public class HotColdHelperPlugin extends Plugin
 	private int possibleLocationsCount = -1;
 
 	@Getter
-	private HotColdLocation SolvedLocation = null;
+	private HotColdLocation solvedLocation = null;
 
 	@Getter
 	private final List<WorldPoint> possibleLocations = new ArrayList<>();
@@ -270,11 +274,12 @@ public class HotColdHelperPlugin extends Plugin
 
 					if (possibleLocationsCount == 1)
 					{
-						SolvedLocation = locations.iterator().next();
+						HotColdLocation solvedLocation = locations.iterator().next();
+						eventBus.post(new HotColdHelperSolvedLocation(solvedLocation));
 					}
 					else
 					{
-						SolvedLocation = null;
+						solvedLocation = null;
 					}
 
 					if (!possibleLocations.isEmpty()) {
