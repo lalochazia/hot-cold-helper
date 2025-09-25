@@ -95,7 +95,7 @@ public class HotColdHelperPlugin extends Plugin
 	@Inject
 	private EventBus eventBus;
 
-	private static final String HOT_COLD_DEVICE_MESSAGE = "The power of the strange device hurts you in the process.";
+	private static final String HOT_COLD_DEVICE_MESSAGE = "The device is";
 	private static final int CHECKED_LOCATION_RANGE = 25;
 
 	@Getter
@@ -294,20 +294,6 @@ public class HotColdHelperPlugin extends Plugin
 		}
 	}
 
-	private void processLocations(Collection<?> points)
-	{
-		possibleLocationsCount = points.size();
-		possibleLocations.clear();
-		for (Object point : points)
-		{
-			if (point instanceof WorldPoint)
-			{
-				possibleLocations.add((WorldPoint) point);
-			}
-		}
-		updateEntropyValues();
-	}
-
 	private void updateEntropyValues()
 	{
 		entropyValues.clear();
@@ -499,7 +485,7 @@ public class HotColdHelperPlugin extends Plugin
 			return;
 		}
 
-		if (chatMessage.getMessage().contains(HOT_COLD_DEVICE_MESSAGE))
+		if (chatMessage.getMessage().startsWith(HOT_COLD_DEVICE_MESSAGE))
 		{
 			if (client.getLocalPlayer() != null)
 			{

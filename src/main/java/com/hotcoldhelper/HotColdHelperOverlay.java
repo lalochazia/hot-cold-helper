@@ -46,11 +46,11 @@ public class HotColdHelperOverlay extends OverlayPanel {
     @Inject
     private HotColdHelperOverlay(HotColdHelperPlugin plugin, HotColdHelperConfig config) {
         super(plugin);
-        setPosition(OverlayPosition.TOP_LEFT);
+		setPosition(OverlayPosition.TOOLTIP);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
 		this.plugin = plugin;
         this.config = config;
-        panelComponent.setPreferredSize(new Dimension(PANEL_WIDTH, 0));
+		panelComponent.setPreferredSize(new Dimension(PANEL_WIDTH, 0));
     }
 
     @Override
