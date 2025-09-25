@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPanel;
-import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.ui.overlay.components.TitleComponent;
 
@@ -46,8 +45,8 @@ public class HotColdHelperOverlay extends OverlayPanel {
     @Inject
     private HotColdHelperOverlay(HotColdHelperPlugin plugin, HotColdHelperConfig config) {
         super(plugin);
-		setPosition(OverlayPosition.TOOLTIP);
-		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		setPriority(PRIORITY_HIGHEST);
+		setLayer(OverlayLayer.UNDER_WIDGETS);
 		this.plugin = plugin;
         this.config = config;
 		panelComponent.setPreferredSize(new Dimension(PANEL_WIDTH, 0));
