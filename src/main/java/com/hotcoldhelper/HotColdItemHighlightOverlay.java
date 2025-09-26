@@ -38,7 +38,7 @@ class HotColdItemHighlightOverlay extends WidgetItemOverlay
 {
 	private final ItemManager itemManager;
 	private final HotColdHelperPlugin plugin;
-	private static final Color HIGHLIGHT_COLOR = Color.WHITE;
+	private static final Color HIGHLIGHT_COLOR = new Color(255, 90, 0, 255);
 
 	@Inject
 	private HotColdItemHighlightOverlay(ItemManager itemManager, HotColdHelperPlugin plugin)
