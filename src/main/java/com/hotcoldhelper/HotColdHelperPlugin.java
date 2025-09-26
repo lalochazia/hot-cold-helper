@@ -60,7 +60,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
 	name = "Hot Cold Helper",
-	description = "Helps with the optimal solving of Hot/Clue Clue Steps",
+	description = "Helps with the optimal solving of Hot/Cold Clue Steps",
 	tags = {"hot", "cold", "clue", "helper"}
 )
 @PluginDependency(ClueScrollPlugin.class)
