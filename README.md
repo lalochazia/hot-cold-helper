@@ -1,7 +1,7 @@
 <div align="center">
     <img src="readme_images/icon_readme.png" alt="Logo" width="120" height="120">
     <h3>Hot Cold Helper</h3>
-    <h4>Helper tool to help with master clues Hot Cold steps</h4>
+    <h4>Helper tool for Hot Cold steps in clues</h4>
 </div>
 
 ### Features
@@ -37,3 +37,4 @@ Below are a number of outputs from the plugin demonstrating the following featur
 ### Changelog
 
 * v1.1: Added shorthand teleport locations (with hotkeys) as an optional toggle, and highlighting of optimal item in inventory
+* v1.2: Added support for beginner clues, and highlighting for teleport icons

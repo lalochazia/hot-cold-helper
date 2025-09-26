@@ -60,7 +60,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 
 @PluginDescriptor(
 	name = "Hot Cold Helper",
-	description = "Helps with the optimal solving of Hot/Clue Master Clue Steps",
+	description = "Helps with the optimal solving of Hot/Clue Clue Steps",
 	tags = {"hot", "cold", "clue", "helper"}
 )
 @PluginDependency(ClueScrollPlugin.class)
@@ -90,6 +90,9 @@ public class HotColdHelperPlugin extends Plugin
 
 	@Inject
 	private HotColdItemHighlightOverlay itemHighlightOverlay;
+
+	@Inject
+	private HotColdWidgetOverlay hotColdWidgetOverlay;
 
 	@Inject
 	private EventBus eventBus;
@@ -138,6 +141,7 @@ public class HotColdHelperPlugin extends Plugin
 		overlayManager.add(overlay);
 		clientThread.invokeLater(this::checkHotColdData);
 		overlayManager.add(itemHighlightOverlay);
+		overlayManager.add(hotColdWidgetOverlay);
 	}
 
 	@Override
@@ -150,6 +154,7 @@ public class HotColdHelperPlugin extends Plugin
 		possibleLocationsCount = -1;
 		hotColdClue = null;
 		overlayManager.remove(itemHighlightOverlay);
+		overlayManager.remove(hotColdWidgetOverlay);
 	}
 
 	private void resetPluginState()
