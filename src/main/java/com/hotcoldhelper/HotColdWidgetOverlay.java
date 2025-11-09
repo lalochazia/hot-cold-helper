@@ -79,7 +79,7 @@ public class HotColdWidgetOverlay extends OverlayPanel {
 			"Ancients".equals(teleportType) ||
 			"Arceuus".equals(teleportType)) {
 
-			Widget spellbookWidget = client.getWidget(14286992);
+			Widget spellbookWidget = client.getWidget(14286994);
 			if (spellbookWidget != null && !spellbookWidget.isHidden()) {
 				Widget spellbookParent = spellbookWidget.getParent();
 				if (spellbookParent != null) {
