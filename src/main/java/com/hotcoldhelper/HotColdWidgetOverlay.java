@@ -27,6 +27,7 @@ package com.hotcoldhelper;
 
 import net.runelite.api.Client;
 import net.runelite.api.widgets.Widget;
+import net.runelite.api.gameval.InterfaceID;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -79,7 +80,7 @@ public class HotColdWidgetOverlay extends OverlayPanel {
 			"Ancients".equals(teleportType) ||
 			"Arceuus".equals(teleportType)) {
 
-			Widget spellbookWidget = client.getWidget(14286994);
+			Widget spellbookWidget = client.getWidget(InterfaceID.MagicSpellbook.SPELLBOOK_SWAP);
 			if (spellbookWidget != null && !spellbookWidget.isHidden()) {
 				Widget spellbookParent = spellbookWidget.getParent();
 				if (spellbookParent != null) {
