@@ -51,6 +51,7 @@ import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginManager;
 import net.runelite.client.plugins.cluescrolls.ClueScrollPlugin;
+import net.runelite.client.plugins.cluescrolls.ClueScrollService;
 import net.runelite.client.plugins.cluescrolls.clues.HotColdClue;
 import net.runelite.client.plugins.cluescrolls.clues.hotcold.HotColdLocation;
 import net.runelite.client.plugins.cluescrolls.clues.hotcold.HotColdSolver;
@@ -86,7 +87,7 @@ public class HotColdHelperPlugin extends Plugin
 	private HotColdHelperOverlay overlay;
 
 	@Inject
-	private ClueScrollPlugin clueScrollPlugin;
+	private ClueScrollService clueScrollService;
 
 	@Inject
 	private HotColdItemHighlightOverlay itemHighlightOverlay;
@@ -176,13 +177,13 @@ public class HotColdHelperPlugin extends Plugin
 
 	public boolean isHotColdClueActive()
 	{
-		if (clueScrollPlugin == null || hotColdClue == null)
+		if (clueScrollService == null || hotColdClue == null)
 		{
 			return false;
 		}
 		try
 		{
-			Object currentClue = clueScrollPlugin.getClue();
+			Object currentClue = clueScrollService.getClue();
 			if (currentClue != null && hotColdClue.equals(currentClue))
 			{
 				return true;
@@ -214,15 +215,15 @@ public class HotColdHelperPlugin extends Plugin
 
 	private void checkHotColdData()
 	{
-		if (clueScrollPlugin == null)
+		if (clueScrollService == null)
 		{
-			log.debug("Could not find ClueScrollPlugin");
+			log.debug("Could not find ClueScrollService");
 			return;
 		}
 
 		try
 		{
-			Object clue = clueScrollPlugin.getClue();
+			Object clue = clueScrollService.getClue();
 			if (clue != null)
 			{
 				if (clue.getClass().getSimpleName().equals("HotColdClue"))
